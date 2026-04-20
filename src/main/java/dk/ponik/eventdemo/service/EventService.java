@@ -25,4 +25,20 @@ public class EventService {
         return events.stream().
                 filter(event -> event.Id() == id).findFirst().orElse(null);
     }
+    public Event addEvent(Event event) {
+        events.add(event);
+        return event;
+    }
+    public Event updateEvent(int id, Event updatedEvent) {
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).Id() == id) {
+                events.set(i, updatedEvent);
+                return updatedEvent;
+            }
+        }
+            return null;
+    }
+    public void removeEvent(int id) {
+        events.removeIf(event ->  event.Id() == id);
+    }
 }

@@ -3,10 +3,7 @@ package dk.ponik.eventdemo.controller;
 
 import dk.ponik.eventdemo.model.Event;
 import dk.ponik.eventdemo.service.EventService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +25,22 @@ public class EventController {
     @GetMapping("/{id}")
     public Event getSingleEvent(@PathVariable int id) {
         return eventService.getEventById(id);
+    }
+
+    @PostMapping
+    public Event addEvent(@RequestBody Event event) {
+        eventService.addEvent(event);
+        return event;
+    }
+
+    @PutMapping("/{id}")
+    public Event updateEvent(@PathVariable int id, @RequestBody Event event) {
+        return eventService.updateEvent(id, event);
+    }
+
+
+    @DeleteMapping ("/{id}")
+    public void deleteEvent(@PathVariable int id) {
+        eventService.removeEvent(id);
     }
 }
