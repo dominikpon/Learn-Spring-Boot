@@ -3,6 +3,7 @@ package dk.ponik.eventdemo.controller;
 
 import dk.ponik.eventdemo.model.Event;
 import dk.ponik.eventdemo.service.EventService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,10 +14,10 @@ public class EventController {
 
     private final EventService eventService;
 
-
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
+
     @GetMapping
     public List<Event> getEvents() {
         return eventService.getAllEvents();
@@ -28,19 +29,19 @@ public class EventController {
     }
 
     @PostMapping
-    public Event addEvent(@RequestBody Event event) {
+    public Event addEvent(@Valid @RequestBody Event event) {
         eventService.addEvent(event);
         return event;
     }
 
     @PutMapping("/{id}")
-    public Event updateEvent(@PathVariable int id, @RequestBody Event event) {
+    public Event updateEvent(@PathVariable int id, @Valid @RequestBody Event event) {
         return eventService.updateEvent(id, event);
     }
 
 
     @DeleteMapping ("/{id}")
-    public void deleteEvent(@PathVariable int id) {
+    public void deleteEvent(@PathVariable int id, @Valid @RequestBody Event event) {
         eventService.removeEvent(id);
     }
 }
