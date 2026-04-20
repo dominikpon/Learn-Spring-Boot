@@ -1,6 +1,7 @@
 package dk.ponik.eventdemo.service;
 
 import dk.ponik.eventdemo.model.Event;
+import dk.ponik.eventdemo.repository.EventRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,20 +11,19 @@ import java.util.List;
 public class EventService {
 
     private final List<Event> events = new ArrayList<>();
+    private final EventRepository eventRepository;
 
 
-    public EventService() {
-        events.add(new Event(1, "Cooking class", "Esbjerg", 50.0));
-        events.add(new Event(2, "Football match", "Copenhagen", 70.0));
+    public EventService(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
     }
 
     public List<Event> getAllEvents() {
-        return events;
+        return (List<Event>) eventRepository.findAll();
     }
 
     public Event getEventById(int id) {
-        return events.stream().
-                filter(event -> event.Id() == id).findFirst().orElse(null);
+        return eventRepository.findById(id).orElse(null);
     }
     public Event addEvent(Event event) {
         events.add(event);
@@ -31,7 +31,7 @@ public class EventService {
     }
     public Event updateEvent(int id, Event updatedEvent) {
         for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).Id() == id) {
+            if (events.get(i).getId() == id) {
                 events.set(i, updatedEvent);
                 return updatedEvent;
             }
@@ -39,6 +39,6 @@ public class EventService {
             return null;
     }
     public void removeEvent(int id) {
-        events.removeIf(event ->  event.Id() == id);
+        events.removeIf(event ->  event.getId() == id);
     }
 }
